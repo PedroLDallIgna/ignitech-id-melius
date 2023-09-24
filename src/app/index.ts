@@ -1,26 +1,23 @@
-import express, { Application } from "express";
-import { router } from "../router";
+import express, { Application, Request, Response } from "express";
 
-class App {
-  private server: Application;
-  
-  constructor() {
-    this.server = express();
-    this.middleware();
-    this.router();
-  }
+const app = express();
+import * as db from "../database";
 
-  private middleware(): void {
-    this.server.use(express.json());
-  }
+const router = express.Router();
 
-  private router(): void {
-    this.server.use("/api", router);
-  }
+router.get("/", async (req: Request, res: Response) => {
+    res.send("Hello World");
+})
 
-  public listen(port: string | number, callback: () => void): void {
-    this.server.listen(port, callback);
-  }
-}
+router.get("/funcionarios", async (req: Request, res: Response) => {
+    try {
+        const queryResult = await db.getAllFuncionarios();
+        res.status(200).json(queryResult);
+    } catch (err) {
+        res.status(500).send("SERVER ERROR");
+    }
+})
 
-export default App;
+app.use("/api", router);
+
+export default app;

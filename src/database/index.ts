@@ -1,4 +1,4 @@
-import mssql, { ConnectionPool } from "mssql";
+import mssql from "mssql";
 
 const config = {
     user: process.env.DB_CONNECTION_USER || 'sa',
@@ -17,23 +17,26 @@ const config = {
     }
 }
 
-class Database {
-  public pool: ConnectionPool;
+const pool = new mssql.ConnectionPool(config);
 
-  constructor() {
-    this.pool = new ConnectionPool(config);
-    this.pool.on('error', this.connect);
-  }
-
-  public async connect() {
-    try {
-      await this.pool.connect();
-    } catch (err) {
-        setTimeout(() => {
-            this.connect();
-        }, 3000)
-    }
+const connect = async (): Promise<void> => {
+  try {
+    await pool.connect();
+  } catch (err) {
+    setTimeout(() => {
+        connect();
+    }, 3000)
   }
 }
 
-export default Database;
+connect();
+
+pool.on("error", connect);
+
+export const getAllFuncionarios = async (): Promise<mssql.IResult<void>> => {
+  const query = `
+    SELECT * FROM tblFuncionarios
+  `;
+
+  return pool.query(query);
+}
