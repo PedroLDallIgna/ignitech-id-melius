@@ -1,23 +1,33 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
+import { router } from "../router";
+import path from "path";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
-const app = express();
-import * as db from "../database";
+class App {
+  private server: Application;
+  
+  constructor() {
+    this.server = express();
+    this.middleware();
+    this.router();
+  }
 
-const router = express.Router();
+  private middleware(): void {
+    this.server.use(cors());
+    this.server.use(cookieParser());
+    this.server.use(express.json());
+    this.server.use(express.urlencoded({extended: false}));
+    this.server.use(express.static(path.join(__dirname, "public")));
+  }
 
-router.get("/", async (req: Request, res: Response) => {
-    res.send("Hello World");
-})
+  private router(): void {
+    this.server.use("/api", router);
+  }
 
-router.get("/funcionarios", async (req: Request, res: Response) => {
-    try {
-        const queryResult = await db.getAllFuncionarios();
-        res.status(200).json(queryResult);
-    } catch (err) {
-        res.status(500).send("SERVER ERROR");
-    }
-})
+  public listen(port: string | number, callback: () => void): void {
+    this.server.listen(port, callback);
+  }
+}
 
-app.use("/api", router);
-
-export default app;
+export default App;
