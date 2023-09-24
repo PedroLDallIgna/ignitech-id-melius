@@ -1,7 +1,7 @@
 import express, { Application } from "express";
 import { router } from "../router";
 
-export default class App {
+class App {
   private server: Application;
   
   constructor() {
@@ -18,7 +18,9 @@ export default class App {
     this.server.use("/api", router);
   }
 
-  public listen(port: number, callback: () => void): void {
+  public listen(port: string | number, callback: () => void): void {
     this.server.listen(port, callback);
   }
 }
+
+export default App;
