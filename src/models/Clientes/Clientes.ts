@@ -45,6 +45,13 @@ class Clientes {
 
     return request.execute('AtualizarCliente');
   }
+
+  public async delete(pool: ConnectionPool, id: number | string) {
+    const request = new mssql.Request(pool);
+    request.input('Id', mssql.Int, Number(id));
+
+    return request.execute('ExcluirCliente');
+  }
 }
 
 export default new Clientes();
