@@ -6,6 +6,7 @@ import Areas from "../models/Areas/Areas";
 import Clientes from "../models/Clientes/Clientes";
 import Projetos from "../models/Projetos/Projetos";
 import Reunioes from "../models/Reunioes/Reunioes";
+import Tarefas from "../models/Tarefas/Tarefas";
 
 const router = Router();
 
@@ -326,6 +327,59 @@ router.delete("/reunioes/:id", async (req: Request, res: Response) => {
     const { id: reuniaoId } = req.params;
     const result = await Reunioes.delete(db.pool, reuniaoId);
     res.status(200).json({message: "successfully removed 'reuniao'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET ALL TAREFAS
+router.get("/tarefas", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Tarefas.getAll(db.pool);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// POST TAREFAS
+router.post("/tarefas", async (req: Request, res: Response) => {
+  try {
+    const result = await Tarefas.insert(db.pool, req.body);
+    res.status(200).json({message: "successfully inserted new 'tarefa'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET TAREFA BY ID
+router.get("/tarefas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: tarefaId } = req.params;
+    const queryResult = await Tarefas.getById(db.pool, tarefaId);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// UPDATE TAREFA BY ID
+router.patch("/tarefas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: tarefaId } = req.params;
+    const result = await Tarefas.update(db.pool, tarefaId, req.body);
+    res.status(200).json({message: "successfully updated 'tarefa'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// DELETE TAREFA BY ID
+router.delete("/tarefas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: tarefaId } = req.params;
+    const result = await Tarefas.delete(db.pool, tarefaId);
+    res.status(200).json({message: "successfully removed 'tarefa'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
