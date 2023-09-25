@@ -4,6 +4,7 @@ import Funcionarios from "../models/Funcionarios/Funcionarios";
 import Equipes from "../models/Equipes/Equipes";
 import Areas from "../models/Areas/Areas";
 import Clientes from "../models/Clientes/Clientes";
+import Projetos from "../models/Projetos/Projetos";
 
 const router = Router();
 
@@ -218,6 +219,59 @@ router.delete("/clientes/:id", async (req: Request, res: Response) => {
     const { id: clienteId } = req.params;
     const result = await Clientes.delete(db.pool, clienteId);
     res.status(200).json({message: "successfully removed 'cliente'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET ALL PROJETOS
+router.get("/projetos", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Projetos.getAll(db.pool);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// POST PROJETO
+router.post("/projetos", async (req: Request, res: Response) => {
+  try {
+    const result = await Projetos.insert(db.pool, req.body);
+    res.status(200).json({message: "successfully inserted new 'projeto'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET PROJETO BY ID
+router.get("/projetos/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: projetoId } = req.params;
+    const queryResult = await Projetos.getById(db.pool, projetoId);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// UPDATE PROJETO BY ID
+router.patch("/projetos/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: projetoId } = req.params;
+    const result = await Projetos.update(db.pool, projetoId, req.body);
+    res.status(200).json({message: "successfully updated 'projeto'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// DELETE PROJETO BY ID
+router.delete("/projetos/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: projetoId } = req.params;
+    const result = await Projetos.delete(db.pool, projetoId);
+    res.status(200).json({message: "successfully removed 'projeto'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
