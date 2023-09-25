@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import db from "../database";
 import Funcionarios from "../models/Funcionarios/Funcionarios";
 import Equipes from "../models/Equipes/Equipes";
+import Areas from "../models/Areas/Areas";
 
 const router = Router();
 
@@ -110,6 +111,59 @@ router.delete("/equipes/:id", async (req: Request, res: Response) => {
     const { id: equipeId } = req.params;
     const result = await Equipes.deleteEquipe(db.pool, equipeId);
     res.status(200).json({message: "successfully removed 'equipe'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET ALL AREAS
+router.get("/areas", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Areas.getAll(db.pool);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// POST AREA
+router.post("/areas", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Areas.insert(db.pool, req.body);
+    res.status(200).json({message: "successfully inserted new 'area'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET AREA BY ID
+router.get("/areas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: areaId } = req.params;
+    const queryResult = await Areas.getById(db.pool, areaId);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// UPDATE AREA BY ID
+router.patch("/areas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: areaId } = req.params;
+    const result = await Areas.update(db.pool, areaId, req.body);
+    res.status(200).json({message: "successfully updated 'area'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// DELETE AREA BY ID
+router.delete("/areas/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: areaId } = req.params;
+    const result = await Areas.delete(db.pool, areaId);
+    res.status(200).json({message: "successfully removed 'area'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
