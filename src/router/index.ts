@@ -66,7 +66,7 @@ router.delete("/funcionarios/:id", async (req: Request, res: Response) => {
 // GET ALL EQUIPES
 router.get("/equipes", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Equipes.getAllEquipes(db.pool);
+    const queryResult = await Equipes.getAll(db.pool);
     res.status(200).json(queryResult);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -76,7 +76,7 @@ router.get("/equipes", async (req: Request, res: Response) => {
 // POST EQUIPE
 router.post("/equipes", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Equipes.insertEquipe(db.pool, req.body);
+    const queryResult = await Equipes.insert(db.pool, req.body);
     res.status(200).json({message: "successfully inserted new 'equipe'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -87,7 +87,7 @@ router.post("/equipes", async (req: Request, res: Response) => {
 router.get("/equipes/:id", async (req: Request, res: Response) => {
   try {
     const { id: equipeId } = req.params;
-    const queryResult = await Equipes.getEquipeById(db.pool, equipeId);
+    const queryResult = await Equipes.getById(db.pool, equipeId);
     res.status(200).json(queryResult);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -98,7 +98,7 @@ router.get("/equipes/:id", async (req: Request, res: Response) => {
 router.patch("/equipes/:id", async (req: Request, res: Response) => {
   try {
     const { id: equipeId } = req.params;
-    const result = await Equipes.updateEquipe(db.pool, equipeId, req.body);
+    const result = await Equipes.update(db.pool, equipeId, req.body);
     res.status(200).json({message: "successfully updated 'equipe'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -109,7 +109,7 @@ router.patch("/equipes/:id", async (req: Request, res: Response) => {
 router.delete("/equipes/:id", async (req: Request, res: Response) => {
   try {
     const { id: equipeId } = req.params;
-    const result = await Equipes.deleteEquipe(db.pool, equipeId);
+    const result = await Equipes.delete(db.pool, equipeId);
     res.status(200).json({message: "successfully removed 'equipe'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
