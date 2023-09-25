@@ -5,6 +5,7 @@ import Equipes from "../models/Equipes/Equipes";
 import Areas from "../models/Areas/Areas";
 import Clientes from "../models/Clientes/Clientes";
 import Projetos from "../models/Projetos/Projetos";
+import Reunioes from "../models/Reunioes/Reunioes";
 
 const router = Router();
 
@@ -272,6 +273,59 @@ router.delete("/projetos/:id", async (req: Request, res: Response) => {
     const { id: projetoId } = req.params;
     const result = await Projetos.delete(db.pool, projetoId);
     res.status(200).json({message: "successfully removed 'projeto'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET ALL REUNIOES
+router.get("/reunioes", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Reunioes.getAll(db.pool);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// POST REUNIAO
+router.post("/reunioes", async (req: Request, res: Response) => {
+  try {
+    const result = await Reunioes.insert(db.pool, req.body);
+    res.status(200).json({message: "successfully inserted new 'reuniao'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET REUNIAO BY ID
+router.get("/reunioes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: reuniaoId } = req.params;
+    const queryResult = await Reunioes.getById(db.pool, reuniaoId);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// UPDATE REUNIAO BY ID
+router.patch("/reunioes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: reuniaoId } = req.params;
+    const result = await Reunioes.update(db.pool, reuniaoId, req.body);
+    res.status(200).json({message: "successfully updated 'reuniao'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// DELETE REUNIAO BY ID
+router.delete("/reunioes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: reuniaoId } = req.params;
+    const result = await Reunioes.delete(db.pool, reuniaoId);
+    res.status(200).json({message: "successfully removed 'reuniao'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
