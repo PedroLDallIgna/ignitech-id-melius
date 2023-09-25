@@ -3,6 +3,7 @@ import db from "../database";
 import Funcionarios from "../models/Funcionarios/Funcionarios";
 import Equipes from "../models/Equipes/Equipes";
 import Areas from "../models/Areas/Areas";
+import Clientes from "../models/Clientes/Clientes";
 
 const router = Router();
 
@@ -76,7 +77,7 @@ router.get("/equipes", async (req: Request, res: Response) => {
 // POST EQUIPE
 router.post("/equipes", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Equipes.insert(db.pool, req.body);
+    const result = await Equipes.insert(db.pool, req.body);
     res.status(200).json({message: "successfully inserted new 'equipe'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -129,7 +130,7 @@ router.get("/areas", async (req: Request, res: Response) => {
 // POST AREA
 router.post("/areas", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Areas.insert(db.pool, req.body);
+    const result = await Areas.insert(db.pool, req.body);
     res.status(200).json({message: "successfully inserted new 'area'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -164,6 +165,59 @@ router.delete("/areas/:id", async (req: Request, res: Response) => {
     const { id: areaId } = req.params;
     const result = await Areas.delete(db.pool, areaId);
     res.status(200).json({message: "successfully removed 'area'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET ALL CLIENTES
+router.get("/clientes", async (req: Request, res: Response) => {
+  try {
+    const queryResult = await Clientes.getAll(db.pool);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// POST CLIENTE
+router.post("/clientes", async (req: Request, res: Response) => {
+  try {
+    const result = await Clientes.insert(db.pool, req.body);
+    res.status(200).json({message: "successfully inserted new 'cliente'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// GET CLIENTE BY ID
+router.get("/clientes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: clienteId } = req.params;
+    const queryResult = await Clientes.getById(db.pool, clienteId);
+    res.status(200).json(queryResult);
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// UPDATE CLIENTE BY ID
+router.patch("/clientes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: clienteId } = req.params;
+    const result = await Clientes.update(db.pool, clienteId, req.body);
+    res.status(200).json({message: "successfully updated 'cliente'"});
+  } catch (error) {
+    res.status(500).send("SERVER ERROR");
+  }
+});
+
+// DELETE CLIENTE BY ID
+router.delete("/clientes/:id", async (req: Request, res: Response) => {
+  try {
+    const { id: clienteId } = req.params;
+    const result = await Clientes.delete(db.pool, clienteId);
+    res.status(200).json({message: "successfully removed 'cliente'"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
