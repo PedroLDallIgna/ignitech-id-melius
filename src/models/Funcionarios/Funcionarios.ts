@@ -59,12 +59,10 @@ class Funcionarios {
   }
 
   public async deleteFuncionario(pool: ConnectionPool, id: number | string) {
-    const query = `
-      DELETE FROM tblFuncionarios
-      WHERE Id_Funcionario = ${id}
-    `;
+    const request = new mssql.Request(pool);
+    request.input('Id', mssql.Int, id);
 
-    return pool.query(query);
+    return request.execute('ExcluirFuncionario');
   }
 }
 
