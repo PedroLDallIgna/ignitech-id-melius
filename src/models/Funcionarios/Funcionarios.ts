@@ -46,6 +46,7 @@ class Funcionarios {
 
   public async updateFuncionario(pool: ConnectionPool, id: number | string, data: IFuncionario) {
     const request = new mssql.Request(pool);
+    request.input('Id_Funcionario', mssql.Int, Number(id));
     request.input('Nome', mssql.NVarChar(50), data.nome);
     request.input('DataNascimento', mssql.Date, data.dataNascimento);
     request.input('CPF', mssql.NVarChar(13), data.cpf);
