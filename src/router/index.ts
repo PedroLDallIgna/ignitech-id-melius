@@ -13,7 +13,7 @@ router.get("/", (req: Request, res: Response): void => {
 // GET ALL FUNCIONARIOS
 router.get("/funcionarios", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Funcionarios.getAllFuncionarios(db.pool);
+    const queryResult = await Funcionarios.getAll(db.pool);
     res.status(200).json(queryResult);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -23,7 +23,7 @@ router.get("/funcionarios", async (req: Request, res: Response) => {
 // POST FUNCIONARIO
 router.post("/funcionarios", async (req: Request, res: Response) => {
   try {
-    const result = await Funcionarios.insertFuncionario(db.pool, req.body);
+    const result = await Funcionarios.insert(db.pool, req.body);
     res.status(200).json({message: "successfully inserted user"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -34,7 +34,7 @@ router.post("/funcionarios", async (req: Request, res: Response) => {
 router.get("/funcionarios/:id", async (req: Request, res: Response) => {
   try {
     const { id: funcionarioId } = req.params;
-    const queryResult = await Funcionarios.getFuncionarioById(db.pool, funcionarioId);
+    const queryResult = await Funcionarios.getById(db.pool, funcionarioId);
     res.status(200).json(queryResult);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -45,7 +45,7 @@ router.get("/funcionarios/:id", async (req: Request, res: Response) => {
 router.patch("/funcionarios/:id", async (req: Request, res: Response) => {
   try {
     const { id: funcionarioId } = req.params;
-    const result = await Funcionarios.updateFuncionario(db.pool, funcionarioId, req.body);
+    const result = await Funcionarios.update(db.pool, funcionarioId, req.body);
     res.status(200).json({message: "successfully updated user"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");
@@ -56,7 +56,7 @@ router.patch("/funcionarios/:id", async (req: Request, res: Response) => {
 router.delete("/funcionarios/:id", async (req: Request, res: Response) => {
   try {
     const { id: funcionarioId } = req.params;
-    const result = await Funcionarios.deleteFuncionario(db.pool, funcionarioId);
+    const result = await Funcionarios.delete(db.pool, funcionarioId);
     res.status(200).json({message: "successfully removed user"});
   } catch (error) {
     res.status(500).send("SERVER ERROR");

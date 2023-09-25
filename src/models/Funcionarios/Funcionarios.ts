@@ -12,7 +12,7 @@ interface IFuncionario {
 }
 
 class Funcionarios {
-  public async getAllFuncionarios(pool: ConnectionPool) {
+  public async getAll(pool: ConnectionPool) {
     const query = `
       SELECT * FROM tblFuncionarios
     `;
@@ -20,7 +20,7 @@ class Funcionarios {
     return pool.query(query);
   }
 
-  public async getFuncionarioById(pool: ConnectionPool, id: number | string) {
+  public async getById(pool: ConnectionPool, id: number | string) {
     const query = `
       SELECT *
       FROM tblFuncionarios
@@ -30,7 +30,7 @@ class Funcionarios {
     return pool.query(query);
   }
 
-  public async insertFuncionario(pool: ConnectionPool, data: IFuncionario) {
+  public async insert(pool: ConnectionPool, data: IFuncionario) {
     const request = new mssql.Request(pool);
     request.input('Nome', mssql.NVarChar(50), data.nome);
     request.input('DataNascimento', mssql.Date, data.dataNascimento);
@@ -44,7 +44,7 @@ class Funcionarios {
     return request.execute('InserirFuncionario');
   }
 
-  public async updateFuncionario(pool: ConnectionPool, id: number | string, data: IFuncionario) {
+  public async update(pool: ConnectionPool, id: number | string, data: IFuncionario) {
     const request = new mssql.Request(pool);
     request.input('Id_Funcionario', mssql.Int, Number(id));
     request.input('Nome', mssql.NVarChar(50), data.nome);
@@ -59,7 +59,7 @@ class Funcionarios {
     return request.execute('AtualizarFuncionario');
   }
 
-  public async deleteFuncionario(pool: ConnectionPool, id: number | string) {
+  public async delete(pool: ConnectionPool, id: number | string) {
     const request = new mssql.Request(pool);
     request.input('Id', mssql.Int, id);
 
