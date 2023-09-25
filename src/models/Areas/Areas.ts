@@ -6,7 +6,7 @@ interface IArea {
 }
 
 class Areas {
-  public async getAllAreas(pool: ConnectionPool) {
+  public async getAll(pool: ConnectionPool) {
     const query = `
       SELECT * FROM tblAreas
     `;
@@ -14,7 +14,7 @@ class Areas {
     return pool.query(query);
   }
 
-  public async getAreaById(pool: ConnectionPool, id: number | string) {
+  public async getById(pool: ConnectionPool, id: number | string) {
     const query = `
       SELECT * FROM tblAreas
       WHERE Id_Area = ${id}
@@ -23,7 +23,7 @@ class Areas {
     return pool.query(query);
   }
 
-  public async insertArea(pool: ConnectionPool, data: IArea) {
+  public async insert(pool: ConnectionPool, data: IArea) {
     const request = new mssql.Request(pool);
     request.input('Nome', mssql.NVarChar(60), data.nome);
     request.input('Descricao', mssql.NVarChar(300), data.descricao);
@@ -31,7 +31,7 @@ class Areas {
     return request.execute('InserirArea');
   }
 
-  public async updateArea(pool: ConnectionPool, id: number | string, data: IArea) {
+  public async update(pool: ConnectionPool, id: number | string, data: IArea) {
     const request = new mssql.Request(pool);
     request.input('Id_Area', mssql.Int, Number(id));
     request.input('Nome', mssql.NVarChar(60), data.nome);
@@ -40,7 +40,7 @@ class Areas {
     return request.execute('AtualizarArea');
   }
 
-  public async deleteArea(pool: ConnectionPool, id: number | string) {
+  public async delete(pool: ConnectionPool, id: number | string) {
     const request = new mssql.Request(pool);
     request.input('Id', mssql.Int, Number(id));
 
