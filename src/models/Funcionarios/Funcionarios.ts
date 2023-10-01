@@ -34,7 +34,7 @@ class Funcionarios {
     const request = new mssql.Request(pool);
     request.input('Nome', mssql.NVarChar(50), data.nome);
     request.input('DataNascimento', mssql.Date, data.dataNascimento);
-    request.input('CPF', mssql.NVarChar(13), data.cpf);
+    request.input('CPF', mssql.NVarChar(14), data.cpf);
     request.input('Telefone', mssql.NVarChar(15), data.telefone);
     request.input('Endereco', mssql.NVarChar(120), data.endereco);
     request.input('Email', mssql.NVarChar(100), data.email);
@@ -49,7 +49,7 @@ class Funcionarios {
     request.input('Id_Funcionario', mssql.Int, Number(id));
     request.input('Nome', mssql.NVarChar(50), data.nome);
     request.input('DataNascimento', mssql.Date, data.dataNascimento);
-    request.input('CPF', mssql.NVarChar(13), data.cpf);
+    request.input('CPF', mssql.NVarChar(14), data.cpf);
     request.input('Telefone', mssql.NVarChar(15), data.telefone);
     request.input('Endereco', mssql.NVarChar(120), data.endereco);
     request.input('Email', mssql.NVarChar(100), data.email);
