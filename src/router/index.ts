@@ -18,7 +18,7 @@ router.get("/", (req: Request, res: Response): void => {
 router.get("/funcionarios", async (req: Request, res: Response) => {
   try {
     const queryResult = await Funcionarios.getAll(db.pool);
-    res.status(200).json(queryResult);
+    res.status(200).json(queryResult.recordset);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
