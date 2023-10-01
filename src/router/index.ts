@@ -39,7 +39,8 @@ router.get("/funcionarios/:id", async (req: Request, res: Response) => {
   try {
     const { id: funcionarioId } = req.params;
     const queryResult = await Funcionarios.getById(db.pool, funcionarioId);
-    res.status(200).json(queryResult);
+    if (queryResult.recordset[0]) res.status(200).json(queryResult.recordset[0]);
+    else res.status(404).json({message: 'funcionario not found'})
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
