@@ -253,7 +253,8 @@ router.get("/projetos/:id", async (req: Request, res: Response) => {
   try {
     const { id: projetoId } = req.params;
     const queryResult = await Projetos.getById(db.pool, projetoId);
-    res.status(200).json(queryResult);
+    if (queryResult.recordset[0]) res.status(200).json(queryResult.recordset[0]);
+    else res.status(404).json({message: 'projeto not found'})
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
