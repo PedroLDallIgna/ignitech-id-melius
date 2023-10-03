@@ -339,7 +339,7 @@ router.delete("/reunioes/:id", async (req: Request, res: Response) => {
 router.get("/tarefas", async (req: Request, res: Response) => {
   try {
     const queryResult = await Tarefas.getAll(db.pool);
-    res.status(200).json(queryResult);
+    res.status(200).json(queryResult.recordset);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
@@ -360,7 +360,8 @@ router.get("/tarefas/:id", async (req: Request, res: Response) => {
   try {
     const { id: tarefaId } = req.params;
     const queryResult = await Tarefas.getById(db.pool, tarefaId);
-    res.status(200).json(queryResult);
+    if (queryResult.recordset[0]) res.status(200).json(queryResult.recordset[0]);
+    else res.status(404).json({message: 'tarefa not found'})
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
