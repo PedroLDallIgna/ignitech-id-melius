@@ -125,7 +125,7 @@ router.delete("/equipes/:id", async (req: Request, res: Response) => {
 router.get("/areas", async (req: Request, res: Response) => {
   try {
     const queryResult = await Areas.getAll(db.pool);
-    res.status(200).json(queryResult);
+    res.status(200).json(queryResult.recordset);
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
