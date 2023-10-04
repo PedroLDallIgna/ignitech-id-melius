@@ -339,8 +339,15 @@ router.delete("/reunioes/:id", async (req: Request, res: Response) => {
 // GET ALL TAREFAS
 router.get("/tarefas", async (req: Request, res: Response) => {
   try {
-    const queryResult = await Tarefas.getAll(db.pool);
-    res.status(200).json(queryResult.recordset);
+    const queryParams = req.query;
+    if (queryParams.funcionario || queryParams.projeto || queryParams.estado) {
+      const queryParams = req.query;
+      const queryResult = await Tarefas.getWithParams(db.pool, queryParams);
+      res.status(200).send(queryResult.recordset);
+    } else {
+      const queryResult = await Tarefas.getAll(db.pool);
+      res.status(200).json(queryResult.recordset);
+    }
   } catch (error) {
     res.status(500).send("SERVER ERROR");
   }
@@ -389,5 +396,13 @@ router.delete("/tarefas/:id", async (req: Request, res: Response) => {
     res.status(500).send("SERVER ERROR");
   }
 });
+
+router.get("/tarefas", async (req: Request, res: Response) => {
+  try {
+    
+  } catch(error) {
+    res.status(500).send("SERVER ERROR");
+  }
+})
 
 export { router };

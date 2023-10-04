@@ -58,6 +58,40 @@ class Tarefas {
 
     return request.execute('ExcluirTarefa');
   }
+
+  public async getWithParams(pool: ConnectionPool, params: {funcionario?: string, projeto?: string, estado?: string}) {
+    let filterStringObject: {
+      Id_Funcionario?: string,
+      Id_Projeto?: string,
+      Id_Estado?: string
+    } = {};
+    for (const [key, value] of Object.entries(params)) {
+      let column: "Id_Funcionario" | "Id_Projeto" | "Id_Estado";
+      if (key === 'funcionario') {
+        column = 'Id_Funcionario';
+        filterStringObject[column] = value;
+      } else if (key === 'projeto') {
+        column = 'Id_Projeto';
+        filterStringObject[column] = value;
+      } else if (key == 'estado') {
+        column = 'Id_Estado';
+        filterStringObject[column] = value;
+      }  
+    }
+    let queryParamsList = [];
+    for (const entry of Object.entries(filterStringObject)) {
+      queryParamsList.push(entry.join(' = '));
+    }
+    const queryParamsString = queryParamsList.join(' AND ');
+    
+    const query = `
+      SELECT Tarefa, Funcionario, Projeto, Status
+      FROM VW_TAREFAS
+      WHERE ${queryParamsString}
+    `
+
+    return pool.query(query);
+  }
 }
 
 export default new Tarefas();
