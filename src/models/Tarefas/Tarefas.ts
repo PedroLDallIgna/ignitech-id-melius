@@ -85,7 +85,7 @@ class Tarefas {
     const queryParamsString = queryParamsList.join(' AND ');
     
     const query = `
-      SELECT Tarefa, Funcionario, Projeto, Status
+      SELECT Id_Tarefa, Tarefa, Funcionario, Projeto, Status
       FROM VW_TAREFAS
       WHERE ${queryParamsString}
     `
